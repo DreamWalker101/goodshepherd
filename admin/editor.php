@@ -49,6 +49,19 @@ $PAGE_NAMES = [
     'enrolment' => 'Enrolment', 'portal' => 'Portal Access', 'contact' => 'Contact',
 ];
 $pageData = $c['pages'] ?? [];
+
+// Scan all pages for unique real content images (exclude logos/icons/animated)
+$allImages = [];
+foreach (glob(__DIR__ . '/../*.html') as $hf) {
+    if (preg_match_all('#assets/downloaded/[A-Za-z0-9_./-]+\.(?:jpg|jpeg|png|webp)#i', file_get_contents($hf), $mm)) {
+        foreach ($mm[0] as $u) $allImages[$u] = true;
+    }
+}
+$allImages = array_values(array_filter(array_keys($allImages), function ($u) {
+    return !preg_match('#logo|flavicon|favicon|/icon|-icon|wired-lineal#i', $u);
+}));
+sort($allImages);
+$imageMap = $c['imageMap'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,6 +165,26 @@ $pageData = $c['pages'] ?? [];
       </div>
     </section>
 
+    <!-- IMAGES -->
+    <section class="panel" data-panel="images">
+      <h1>Images</h1>
+      <p class="sub">Replace any image on the site. Pick a new file and it swaps everywhere that image appears (after Save). <?= count($allImages) ?> images found.</p>
+      <div class="card">
+        <div class="media-grid">
+        <?php foreach ($allImages as $u): $cur = $imageMap[$u] ?? $u; ?>
+          <figure>
+            <img src="../<?= v($cur) ?>" alt="" loading="lazy">
+            <figcaption>
+              <?= v(basename($u)) ?>
+              <input type="hidden" data-imgmap="<?= v($u) ?>" value="<?= v($imageMap[$u] ?? '') ?>">
+              <button class="btn btn-sec" style="margin-top:5px;padding:4px 8px;font-size:11px;" type="button" onclick="replaceImage(this)">Replace</button>
+            </figcaption>
+          </figure>
+        <?php endforeach; ?>
+        </div>
+      </div>
+    </section>
+
     <!-- MEDIA -->
     <section class="panel" data-panel="media">
       <h1>Media library</h1>
@@ -188,7 +221,7 @@ $pageData = $c['pages'] ?? [];
 const TABS = [
   ['global','Global & Contact'],
 <?php foreach ($PAGE_NAMES as $pkey => $pname) echo "  ['".$pkey."','".addslashes($pname)."'],\n"; ?>
-  ['media','Media'],['access','Access'],
+  ['images','Images'],['media','Media'],['access','Access'],
 ];
 const nav = document.getElementById('nav');
 TABS.forEach(([id,label])=>{
@@ -209,8 +242,14 @@ function toast(msg,err){ const t=document.getElementById('toast'); t.textContent
 function setDeep(obj,path,value){ const ks=path.split('.'); let o=obj; ks.forEach((k,i)=>{ if(i===ks.length-1) o[k]=value; else { o[k]=o[k]||{}; o=o[k]; } }); }
 async function save(){
   const panel=document.querySelector('.panel.active'); if(!panel) return;
-  const obj={};
-  panel.querySelectorAll('[data-field]').forEach(el=>setDeep(obj,el.getAttribute('data-field'),el.value));
+  let obj={};
+  if(panel.dataset.panel==='images'){
+    const map={};
+    panel.querySelectorAll('[data-imgmap]').forEach(el=>{ if(el.value) map[el.getAttribute('data-imgmap')]=el.value; });
+    obj={imageMap:map};
+  } else {
+    panel.querySelectorAll('[data-field]').forEach(el=>setDeep(obj,el.getAttribute('data-field'),el.value));
+  }
   const btn=document.getElementById('saveBtn'); btn.disabled=true;
   try{
     const r=await fetch('api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(obj)});
@@ -227,6 +266,20 @@ async function loadMedia(){
   imgs.forEach(im=>{ const fig=document.createElement('figure');
     fig.innerHTML=`<img src="../${im.url}" alt=""><figcaption>${im.name}<br><button class="btn btn-sec" style="margin-top:5px;padding:4px 8px;font-size:11px;" onclick="navigator.clipboard.writeText('${im.url}');toast('URL copied')">Copy URL</button></figcaption>`;
     g.appendChild(fig); });
+}
+function replaceImage(btn){
+  const fig=btn.closest('figure');
+  const input=fig.querySelector('[data-imgmap]');
+  const img=fig.querySelector('img');
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange=async()=>{
+    if(!inp.files[0]) return;
+    const fd=new FormData(); fd.append('image',inp.files[0]);
+    const j=await (await fetch('api.php?action=upload',{method:'POST',body:fd})).json();
+    if(j.success){ input.value=j.url; img.src='../'+j.url; toast('Image set — click Save to apply'); }
+    else toast(j.error||'Upload failed',true);
+  };
+  inp.click();
 }
 function uploadMedia(){
   const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.multiple=true;

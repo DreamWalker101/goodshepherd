@@ -1,78 +1,79 @@
 {
-    "global": {
-        "phoneDisplay": "(03) 9562 0229",
-        "phone": "(03) 9562 0229",
-        "email": "gsoffice@gswheelershill.catholic.edu.au",
-        "enrolmentEmail": "enrolments@gswheelershill.catholic.edu.au",
-        "address": "30 Academy Avenue Wheelers Hill, VIC 3150",
-        "addressShort": "30 Academy Avenue Wheelers Hill, VIC 3150",
-        "facebookUrl": "",
-        "instagramUrl": "",
-        "officeHours": "Monday to Friday · 8:30am – 4:00pm",
-        "footerTagline": "A Catholic community where every child is known, valued and inspired to flourish."
+  "global": {
+    "phoneDisplay": "(03) 9562 0229",
+    "phone": "(03) 9562 0229",
+    "email": "gsoffice@gswheelershill.catholic.edu.au",
+    "enrolmentEmail": "enrolments@gswheelershill.catholic.edu.au",
+    "address": "30 Academy Avenue Wheelers Hill, VIC 3150",
+    "addressShort": "30 Academy Avenue Wheelers Hill, VIC 3150",
+    "facebookUrl": "",
+    "instagramUrl": "",
+    "officeHours": "Monday to Friday · 8:30am – 4:00pm",
+    "footerTagline": "A Catholic community where every child is known, valued and inspired to flourish."
+  },
+  "pages": {
+    "home": {
+      "s0": "Welcome to",
+      "s1": "We are committed to providing each child with the opportunity to reach their full potential intellectually, spiritually, physically, emotionally and socially.",
+      "s2": "About",
+      "s3": "Our School Vision",
+      "s4": "Take a",
+      "s5": "We acknowledge the Traditional Owners of country throughout Australia and recognise their continuing connection to land, water and culture.  We pay our respects to their Elders past, present and emerging.",
+      "s6": "Child Safety Statement: We are committed to creating an environment where the safety, wellbeing and participation of all children within our care is paramount."
     },
-    "pages": {
-        "home": {
-            "s0": "Welcome to",
-            "s1": "We are committed to providing each child with the opportunity to reach their full potential intellectually, spiritually, physically, emotionally and socially.",
-            "s2": "About",
-            "s3": "Our School Vision",
-            "s4": "Take a",
-            "s5": "We acknowledge the Traditional Owners of country throughout Australia and recognise their continuing connection to land, water and culture.  We pay our respects to their Elders past, present and emerging.",
-            "s6": "Child Safety Statement: We are committed to creating an environment where the safety, wellbeing and participation of all children within our care is paramount."
-        },
-        "ourSchool": {
-            "s0": "Principal's Welcome",
-            "s1": "_",
-            "s2": "Jacqui Marshall",
-            "s3": "Good Shepherd Principal",
-            "s4": "Good Shepherd's",
-            "s5": "Events",
-            "s6": "Explore our upcoming events",
-            "s7": "Secondary School"
-        },
-        "curriculum": {
-            "s0": "Religious",
-            "s1": "English",
-            "s2": "Additional Learning Support",
-            "s3": "Mathematics",
-            "s4": "Inquiry Learning (Science, Geography, History, Civics and Citizenship and Economics and Business)",
-            "s5": "Digital Technologies and STEM (Science, Technology, Engineering & Mathematics)",
-            "s6": "Languages (Mandarin)",
-            "s7": "Performing",
-            "s8": "Health and",
-            "s9": "Physical Education (Sport)"
-        },
-        "extraCurricular": {
-            "s0": "Choir",
-            "s1": "Band",
-            "s2": "Chess Program",
-            "s3": "GSNC"
-        },
-        "wellbeing": {
-            "s0": "Student",
-            "s1": "Voice and Leadership"
-        },
-        "enrolment": {
-            "s0": "School",
-            "s1": "Click the button below to download a copy of our enrolment form.",
-            "s2": "Take a",
-            "s3": "Details about",
-            "s4": "For more information about enrolment,",
-            "s5": "When To Apply?",
-            "s6": "Enrolment"
-        },
-        "portal": {
-            "s0": "Good Shepherd's Portal Access for"
-        },
-        "contact": {
-            "s0": "Contact the",
-            "s1": "School",
-            "s2": "Location and",
-            "s3": "Address"
-        }
+    "ourSchool": {
+      "s0": "Principal's Welcome",
+      "s1": "_",
+      "s2": "Jacqui Marshall",
+      "s3": "Good Shepherd Principal",
+      "s4": "Good Shepherd's",
+      "s5": "Events",
+      "s6": "Explore our upcoming events",
+      "s7": "Secondary School"
+    },
+    "curriculum": {
+      "s0": "Religious",
+      "s1": "English",
+      "s2": "Additional Learning Support",
+      "s3": "Mathematics",
+      "s4": "Inquiry Learning (Science, Geography, History, Civics and Citizenship and Economics and Business)",
+      "s5": "Digital Technologies and STEM (Science, Technology, Engineering & Mathematics)",
+      "s6": "Languages (Mandarin)",
+      "s7": "Performing",
+      "s8": "Health and",
+      "s9": "Physical Education (Sport)"
+    },
+    "extraCurricular": {
+      "s0": "Choir",
+      "s1": "Band",
+      "s2": "Chess Program",
+      "s3": "GSNC"
+    },
+    "wellbeing": {
+      "s0": "Student",
+      "s1": "Voice and Leadership"
+    },
+    "enrolment": {
+      "s0": "School",
+      "s1": "Click the button below to download a copy of our enrolment form.",
+      "s2": "Take a",
+      "s3": "Details about",
+      "s4": "For more information about enrolment,",
+      "s5": "When To Apply?",
+      "s6": "Enrolment"
+    },
+    "portal": {
+      "s0": "Good Shepherd's Portal Access for"
     },
     "contact": {
-        "mapEmbedUrl": ""
+      "s0": "Contact the",
+      "s1": "School",
+      "s2": "Location and",
+      "s3": "Address"
     }
+  },
+  "contact": {
+    "mapEmbedUrl": ""
+  },
+  "imageMap": {}
 }

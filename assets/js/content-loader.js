@@ -1,12 +1,14 @@
-/* content-loader.js — loads content.json and applies editable fields to the page.
- * Elements are targeted via data-pp="path.to.key" attributes.
- * href/src updates use data-pp-href="..." and data-pp-src="..." respectively.
+/* content-loader.js — applies editable content from content.json to the page.
+ *  - Text:   data-pp="path.to.key"            -> element.textContent
+ *  - Links:  data-pp-href="path.to.key"       -> element.href
+ *  - Images: data-pp-src="path.to.key"        -> element.src
+ *  - Image map: content.imageMap { oldUrl: newUrl } swaps any matching
+ *    <img src>, lazy-load data-src/url, and CSS background-image across the page.
  */
 (function () {
   'use strict';
 
   var CONTENT_PATH = (function () {
-    /* Work out the root-relative path to content.json regardless of page depth */
     var depth = window.location.pathname.replace(/\/[^\/]*$/, '').split('/').length - 1;
     return depth > 0 ? '../'.repeat(depth) + 'content.json' : 'content.json';
   }());
@@ -17,35 +19,45 @@
     }, obj);
   }
 
-  function apply(content) {
-    /* Text content */
+  function applyFields(content) {
     document.querySelectorAll('[data-pp]').forEach(function (el) {
       var val = get(content, el.getAttribute('data-pp'));
-      if (val !== null && val !== '') {
-        el.textContent = val;
-      }
+      if (val !== null && val !== '') el.textContent = val;
     });
-
-    /* href updates (links) */
     document.querySelectorAll('[data-pp-href]').forEach(function (el) {
       var val = get(content, el.getAttribute('data-pp-href'));
-      if (val !== null && val !== '') {
-        el.href = val;
-      }
+      if (val !== null && val !== '') el.href = val;
     });
-
-    /* src updates (images) */
     document.querySelectorAll('[data-pp-src]').forEach(function (el) {
       var val = get(content, el.getAttribute('data-pp-src'));
-      if (val !== null && val !== '') {
-        el.src = val;
-      }
+      if (val !== null && val !== '') el.src = val;
     });
   }
 
-  /* Fetch content.json — served as a static file by the PHP server */
+  function applyImageMap(map) {
+    if (!map) return;
+    Object.keys(map).forEach(function (oldUrl) {
+      var nu = map[oldUrl];
+      if (!nu || !oldUrl) return;
+      /* <img> via src / lazy-load attributes */
+      document.querySelectorAll('img').forEach(function (img) {
+        ['src', 'data-src', 'data-lazyload', 'url', 'data-sticky'].forEach(function (attr) {
+          var v = img.getAttribute(attr);
+          if (v && v.indexOf(oldUrl) !== -1) img.setAttribute(attr, nu);
+        });
+        if (img.getAttribute('data-src') === nu || img.getAttribute('url') === nu) img.src = nu;
+      });
+      /* CSS background-image (inline styles) */
+      document.querySelectorAll('[style*="background-image"]').forEach(function (el) {
+        if (el.style.backgroundImage.indexOf(oldUrl) !== -1) {
+          el.style.backgroundImage = 'url("' + nu + '")';
+        }
+      });
+    });
+  }
+
   fetch(CONTENT_PATH)
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(apply)
+    .then(function (content) { applyFields(content); applyImageMap(content.imageMap); })
     .catch(function (e) { console.warn('[content-loader] Could not load content.json:', e); });
 }());

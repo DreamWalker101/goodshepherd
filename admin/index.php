@@ -277,8 +277,8 @@ if ($step === 'email' && isset($_SESSION['pp_otp_hash']) && time() < ($_SESSION[
 
   <div class="pp-card">
     <div class="pp-card-header">
-      <img src="../assets/downloaded/Good-Shepherd-Horizontal-lock-up-COLOUR-1-42a377de84.png"
-           alt="Good Shepherd Primary School" style="height:52px;width:auto;">
+      <img src="../assets/downloaded/Good-Shepherd-Horizontal-lock-up-WHITE-1024x198-bf4a50ab66.png"
+           alt="Good Shepherd Primary School" style="height:46px;width:auto;">
       <div class="pp-card-subtitle">Content Admin</div>
     </div>
 
